@@ -7,63 +7,43 @@ const mongoose = require('mongoose');
 
 require('dotenv').config();
 
-const middleware = require('./middlewares');
+const middlewares = require('./middlewares');
+
 const users = require('./api/users');
+const auth = require('./api/auth');
 
 const app = express();
 
+//Body parser MiddleWare
+app.use(express.json());
+
+//DB Config
+
+const db = process.env.DATABASE_URL;
+
+//Connect to MongoDB
+
 mongoose
-.connect(process.env.DATABASE_URL, {
-	useNewUrlParser: true,
-	useUnifiedTopology: true
-})
+.set('useUnifiedTopology', true)
+.connect(db, { useNewUrlParser: true,
+useCreateIndex: true })
 .then(() => console.log('MongoDB Connected...'))
 .catch((err) => console.log(err));
 
-//Body parser Middleware
-app.use(morgan('common'));
-app.use(helmet());
-app.use(
-    cors({
-        origin: process.env.CORS_ORIGIN
-    })
-)
-
-//fix from stackoverflow
-app.use(function(req, res, next) {
-	res.setHeader('Access-Control-Allow-Origin', '*');
-	res.setHeader('Access-Control-Allow-Methods', '*');
-	res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
-	res.setHeader('Access-Control-Allow-Credentials', true);
-	next();
-});
-
-app.use(express.json());
-
-app.get('/', (req, res) => {
-    res.json({
-        message: 'Hello World'
-    });
-});
-
 //Use Routes
 app.use('/api/users', users);
-
-app.use(middleware.notFound);
-app.use(middleware.errorHandler);
+app.use('/api/auth', auth);
 
 //Serve static assets if in production
-if(process.env.NODE_ENV === 'production') {
-    //Set static folder
-    app.use(express.static('client/build'));
+if (process.env.NODE_ENV === 'production') {
+     //Set static folder
+     app.use(express.static('client/build'));
 
-    app.get('*',(req, res) => {
-        res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
-    });
+     app.get('*',(req, res) => {
+         res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
+     });
 }
 
 const port = process.env.PORT || 1337;
 
-app.listen(port, () => {
-    console.log(`Listening at port ${port}`);
-});
+app.listen(port, () => console.log(`Server started on port ${port}`));

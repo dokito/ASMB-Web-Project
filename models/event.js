@@ -15,7 +15,7 @@ const eventSchema = new Schema({
     },
     dateAndTimeOfEnding: {
         type: Date,
-        required: false
+        default: ""
     }
 }, {
     timestamps: true

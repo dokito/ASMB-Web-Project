@@ -14,8 +14,13 @@ const eventSchema = new Schema({
         default: Date.now
     },
     dateAndTimeOfEnding: {
-        type: Date
+        type: Date,
+        required: false
     }
 }, {
     timestamps: true
 });
+
+const event = mongoose.model('event', eventSchema);
+
+module.exports = event;

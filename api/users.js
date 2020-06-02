@@ -8,6 +8,15 @@ require('dotenv').config();
 //User Model
 const User = require('../models/user');
 
+//@route GET api/users
+//@desc Get app users
+//@access Public
+router.get('/', (req, res) => {
+    User.find()
+    .sort({createdAt: -1})
+    .then(users => res.json(users));
+})
+
 //@route POST api/users
 //@desc Register new user
 //@access Public

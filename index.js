@@ -11,6 +11,7 @@ const middlewares = require('./middlewares');
 
 const users = require('./api/users');
 const auth = require('./api/auth');
+const events = require('./api/events');
 
 const app = express();
 
@@ -33,6 +34,7 @@ useCreateIndex: true })
 //Use Routes
 app.use('/api/users', users);
 app.use('/api/auth', auth);
+app.use('/api/events', events);
 
 //Serve static assets if in production
 if (process.env.NODE_ENV === 'production') {

@@ -1,12 +1,22 @@
 import React from 'react';
 import AppNavbar from './components/AppNavbar';
+import EventList from './components/EventList';
+import { Container } from 'react-bootstrap';
+
+import { Provider } from 'react-redux';
+import store from './store';
 
 
 function App() {
   return (
-    <React.Fragment>
+    <Provider store={store}>
+      <React.Fragment>
         <AppNavbar />
-    </React.Fragment>
+        <Container>
+          <EventList />
+        </Container>
+      </React.Fragment>
+    </Provider>
   );
 }
 

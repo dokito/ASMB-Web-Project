@@ -5,7 +5,7 @@ import { returnError } from './errorActions';
 export const getEvents = () => (dispatch) => {
     dispatch(setEventsLoading());
     axios
-        .get('api/events')
+        .get('http://localhost:1337/api/events')
         .then((res) =>
             dispatch({
                 type: GET_EVENTS,

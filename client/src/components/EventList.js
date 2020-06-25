@@ -22,11 +22,15 @@ class EventList extends Component {
         <ListGroup>
           <TransitionGroup className="events-list">
             {events.map(({ _id, nameOfEvent }) => (
-              <CSSTransition key={_id} timeout={500}>
+              <CSSTransition key={_id} timeout={500} classNames="fade">
                 <ListGroupItem>
-                  <Button>&times;</Button>
-                  {this.props.nameOfEvent}
-                  {_id}
+                  <Button
+                  className="remove-btn"
+                  color="danger"
+                  size="sm"
+                  >&times;</Button>
+                  <div>{nameOfEvent}</div>
+                  <div>{_id}</div>
                 </ListGroupItem>
               </CSSTransition>
             ))}

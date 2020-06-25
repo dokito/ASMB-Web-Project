@@ -18,6 +18,12 @@ const app = express();
 //Body parser MiddleWare
 app.use(express.json());
 
+//Access Controll Allow
+app.use((req, res, next) => {
+    res.header('Access-Control-Allow-Origin', '*')
+    next();
+})
+
 //DB Config
 
 const db = process.env.DATABASE_URL;
